@@ -1,0 +1,22 @@
+:root {
+    --main-blue: #2020b9;
+}
+
+.title-create {
+    color: var(--main-blue);
+}
+
+.gachas-list {
+    list-style: none;
+    padding: 0;
+}
+
+.gacha-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.button-item {
+    margin-left: 1em;
+}

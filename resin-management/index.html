@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="index.js"></script> 
+    <title>Resin Management</title>
+</head>
+<body>
+    <section>
+        <h1 class="title-create">Create a new entry</h1>
+        <form id="form-create">
+            <label for="name">Gacha name</label>
+            <input id="name" name="name"/>
+            <button type="submit">Add</button>
+        </form>
+        <ul class="gachas-list" id="gachas-list">
+            <li class="gacha-item">
+                <p>Genshin</p> 
+                <button class="button-item" onclick="editGacha()" id="edit1">Edit</button>
+                <button class="button-item" onclick="deleteGacha()" id="delete1">Delete</button>
+            </li>
+        </ul>
+    </section>
+</body>
+</html>
