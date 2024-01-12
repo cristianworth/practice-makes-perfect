@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Banked Hours Calculator</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Banked Hours Calculator</h1>
+
+        <label for="workHours">Total Work Hours per Day:</label>
+        <input type="number" id="workHours" min="1" step="1" required>
+
+        <label for="bankedHours">Banked Hours:</label>
+        <input type="text" id="bankedHours" placeholder="hh:mm" required>
+
+        <label for="entries">Work Entries:</label>
+        <textarea id="entries" placeholder="Enter work entries (e.g., 08:37, 09:14)" required></textarea>
+
+        <button onclick="handleCalculate()">Calculate</button>
+
+        <p id="result"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
