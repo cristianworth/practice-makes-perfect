@@ -1,19 +1,15 @@
-import React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import React, { Fragment } from "react";
+import { Button, Container, Table } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import EmployeesList from "./Employees";
-import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
 function Home() {
-  var navigate = useNavigate();
+  var history = useNavigate();
 
-  function handleEdit(id) {}
+  function handleEdit(id) {
+    alert("edit");
+  }
 
   function handleDelete(id) {
     var employeesIds = EmployeesList.map((e) => {
@@ -23,42 +19,55 @@ function Home() {
     var index = employeesIds.indexOf(id);
 
     EmployeesList.splice(index, 1);
-    navigate("/");
+    history("/");
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Id</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="center">Age</TableCell>
-            <TableCell align="center">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {EmployeesList.map((row) => (
-            <TableRow key={row.Id}>
-              <TableCell align="center">{row.Id}</TableCell>
-              <TableCell component="th" scope="row">
-                {row.Name}
-              </TableCell>
-              <TableCell align="center">{row.Age}</TableCell>
-              <TableCell align="center">
-                <Link to={"/edit"}>
-                  <Button onClick={() => handleEdit(row.Id)}>Edit</Button>
-                </Link>
-                <Button onClick={() => handleDelete(row.Id)}>Delete</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <Link to={"/create"}>
-        <Button>Create</Button>
-      </Link>
-    </TableContainer>
+    <Fragment>
+      <Container>
+        <Table
+          striped
+          bordered
+          hover
+          size="sm"
+          style={{ width: "100%", marginTop: "2em" }}
+        >
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {EmployeesList && EmployeesList.length > 0
+              ? EmployeesList.map((item) => {
+                  return (
+                    <tr>
+                      <td>{item.Name}</td>
+                      <td>{item.Age}</td>
+                      <td>
+                        <Link to={"/edit"}>
+                          <Button onClick={() => handleEdit(item.Id)}>
+                            Edit
+                          </Button>
+                        </Link>
+                        <Button onClick={() => handleDelete(item.Id)}>
+                          Delete
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })
+              : "No Data Avaliable"}
+          </tbody>
+        </Table>
+        <br />
+        <Link className="d-grid gap-2" to={"/create"}>
+          <Button size="lg">Create</Button>
+        </Link>
+      </Container>
+    </Fragment>
   );
 }
 
