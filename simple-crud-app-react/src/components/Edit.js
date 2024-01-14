@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EmployeesList from "./Employees";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import getIndexById from "../utils/utils";
 
 function Edit() {
@@ -11,13 +11,12 @@ function Edit() {
   const [id, setId] = useState("");
 
   var history = useNavigate();
-  var index = getIndexById(id);
 
   function handleUpdate(e) {
     e.preventDefault();
 
-    console.log(index)
-    console.log(localStorage.getItem("Id"))
+    var index = getIndexById(id);
+    // var employee = getEmployeeById(id);
     var employee = EmployeesList[index];
     employee.Name = name;
     employee.Age = age;

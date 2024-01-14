@@ -9,9 +9,9 @@ function Home() {
   var history = useNavigate();
 
   function handleEdit(id, name, age) {
-    localStorage.setItem('Id', id)
-    localStorage.setItem('Name', name)
-    localStorage.setItem('Age', age)
+    localStorage.setItem("Id", id);
+    localStorage.setItem("Name", name);
+    localStorage.setItem("Age", age);
   }
 
   function handleDelete(id) {
@@ -47,11 +47,18 @@ function Home() {
                       <td>{item.Age}</td>
                       <td>
                         <Link to={"/edit"}>
-                          <Button onClick={() => handleEdit(item.Id, item.Name, item.Age)}>
+                          <Button
+                            onClick={() =>
+                              handleEdit(item.Id, item.Name, item.Age)
+                            }
+                          >
                             Edit
                           </Button>
                         </Link>
-                        <Button onClick={() => handleDelete(item.Id)}>
+                        <Button
+                          style={{ marginLeft: "0.5em" }}
+                          onClick={() => handleDelete(item.Id)}
+                        >
                           Delete
                         </Button>
                       </td>
