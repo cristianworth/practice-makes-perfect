@@ -3,20 +3,19 @@ import { Button, Container, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EmployeesList from "./Employees";
 import { Link, useNavigate } from "react-router-dom";
+import getIndexById from "../utils/utils";
 
 function Home() {
   var history = useNavigate();
 
-  function handleEdit(id) {
-    alert("edit");
+  function handleEdit(id, name, age) {
+    localStorage.setItem('Id', id)
+    localStorage.setItem('Name', name)
+    localStorage.setItem('Age', age)
   }
 
   function handleDelete(id) {
-    var employeesIds = EmployeesList.map((e) => {
-      return e.Id;
-    });
-
-    var index = employeesIds.indexOf(id);
+    var index = getIndexById(id);
 
     EmployeesList.splice(index, 1);
     history("/");
@@ -48,7 +47,7 @@ function Home() {
                       <td>{item.Age}</td>
                       <td>
                         <Link to={"/edit"}>
-                          <Button onClick={() => handleEdit(item.Id)}>
+                          <Button onClick={() => handleEdit(item.Id, item.Name, item.Age)}>
                             Edit
                           </Button>
                         </Link>
