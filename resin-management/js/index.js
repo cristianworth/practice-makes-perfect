@@ -1,31 +1,39 @@
-var allGachas = [
-    { id: 1, name: 'Genshin Impact'},
-    { id: 2, name: 'Honkai Impact 3rd'},
-    { id: 3, name: 'Honkai Star Rail'},
-    { id: 4, name: 'Punishing Gray Raven'},
-];
+// Game.js
+class Game {
+    constructor(id, description, img) {
+        this.id = id;
+        this.description = description;
+        this.img = img;
+    }
+}
+
+var allGachas = [];
+
+allGachas.push(new Game(id = 1, description = 'Genshin Impact', img = 'img/genshin-icon.png'));
+allGachas.push(new Game(id = 2, description = 'Punishing Gray Raven', img = 'img/pgr-icon.png'));
 
 function editGacha() {
-    console.log('Edit not implemented yet');
+    alert('Edit not implemented yet');
 }
 
 function deleteGacha() {
-    console.log('Remove not implemented yet');
+    alert('Remove not implemented yet');
 }
 
-function listGachas() {
-    allGachas.forEach(e => {
-        addNewGachaToList(e.name);
+function loadGamesList() {
+    allGachas.forEach(game => {
+        addNewGachaToList(game);
     });
 }
 
-function addNewGachaToList(gachaName) {
-    let gachasList = document.getElementById("gachas-list");
+function addNewGachaToList(game) {
+    let gachasList = document.getElementById("games-list");
     let index = gachasList.children.length + 1;
 
     gachasList.innerHTML += `
         <li class="gacha-item">
-            <p>${gachaName}</p>
+            <img src=${game.img} alt="${game.description} Icon" width="25" height="25">
+            <p class="button-item">${game.description}</p>
             <button id="${index}Edit" class="button-item" onclick="editGacha()">Edit</button>
             <button id="${index}Delete" class="button-item" onclick="deleteGacha()">Delete</button>
         </li>
@@ -34,12 +42,12 @@ function addNewGachaToList(gachaName) {
 
 document.addEventListener("DOMContentLoaded", function () {
     let formCreate = document.getElementById("form-create");
-    let gachaName = document.getElementById("name").value;
-
-    listGachas();
-
     formCreate.addEventListener("submit", (e) => {
         e.preventDefault();
+        
+        let gachaName = document.getElementById("name").value;
         addNewGachaToList(gachaName)
     });
+
+    loadGamesList();
 });
