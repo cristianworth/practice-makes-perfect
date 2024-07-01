@@ -6,12 +6,12 @@
     color: var(--main-blue);
 }
 
-.gachas-list {
+.games-list {
     list-style: none;
     padding: 0;
 }
 
-.gacha-item {
+.game-item {
     display: flex;
     align-items: center;
     margin-left: 2.5em;
@@ -19,4 +19,8 @@
 
 .button-item {
     margin-left: 1em;
+}
+
+.red-text {
+    color: red;
 }

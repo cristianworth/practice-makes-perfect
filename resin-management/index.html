@@ -4,23 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="js/index.js"></script> 
     <script src="js/Game.js"></script> 
+    <!-- Game precisa ser referenciado primeiro, pq ele é usado pelo index. A ORDEM IMPORTA AQUI -->
+    <script src="js/index.js"></script> 
     <title>Resin Management</title>
 </head>
 <body>
     <section>
         <h1 class="title-create">Create a new entry</h1>
         <form id="form-create">
-            <label for="name">Name of the game:</label>
-            <input id="name" name="name"/>
+            <label for="descriptionNewGame">Name of the game:</label>
+            <input id="descriptionNewGame" name="descriptionNewGame"/>
             <button type="submit">Add</button>
         </form>
-        <ul class="games-list" id="games-list">
-            <li class="gacha-item">
+        <ul class="game-list" id="games-list">
 
-                
-            </li>
+
+
+
+            <!-- <ul class="game-item">
+                <img src='img/genshin-icon.png' alt="Genshin Icon" width="25" height="25">
+                <p class="button-item">Genshin Impact</p>
+                <p class="button-item">200</p>
+            </ul>
+
+            <br/>
+            <ul class="game-item">
+                <img src='img/pgr-icon.png' alt="PGR Icon" width="25" height="25">
+                <p class="button-item">Punishing Gray Raven</p>
+                <p class="button-item">teste</p>
+            </ul> -->
+
+
+
+
         </ul>
     </section>
 </body>

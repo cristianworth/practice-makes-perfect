@@ -1,43 +1,47 @@
-// Game.js
-class Game {
-    constructor(id, description, img) {
-        this.id = id;
-        this.description = description;
-        this.img = img;
-    }
-}
-
-var allGachas = [];
-
-allGachas.push(new Game(id = 1, description = 'Genshin Impact', img = 'img/genshin-icon.png'));
-allGachas.push(new Game(id = 2, description = 'Punishing Gray Raven', img = 'img/pgr-icon.png'));
-
-function editGacha() {
-    alert('Edit not implemented yet');
-}
-
-function deleteGacha() {
-    alert('Remove not implemented yet');
-}
-
 function loadGamesList() {
-    allGachas.forEach(game => {
-        addNewGachaToList(game);
+    document.getElementById("descriptionNewGame").value = '';
+
+    allGames.forEach(game => {
+        addNewGameToList(game);
     });
 }
 
-function addNewGachaToList(game) {
-    let gachasList = document.getElementById("games-list");
-    let index = gachasList.children.length + 1;
-
-    gachasList.innerHTML += `
-        <li class="gacha-item">
+function addNewGameToList(game) {
+    let gameList = document.getElementById("games-list");
+    gameList.innerHTML += `
+        <li class="game-item">
             <img src=${game.img} alt="${game.description} Icon" width="25" height="25">
             <p class="button-item">${game.description}</p>
-            <button id="${index}Edit" class="button-item" onclick="editGacha()">Edit</button>
-            <button id="${index}Delete" class="button-item" onclick="deleteGacha()">Delete</button>
+
+            <label class="button-item" for="currentStamina">Current Stamina:</label>
+            <input id="currentStamina${game.id}" name="currentStamina"/>
+
+            <button id="${game.id}" class="button-item" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
+            <p class="button-item">Max stamina at: </p> <span id="maxStaminaAt${game.id}" class="red-text">não definido<\span>
         </li>
         `;
+}
+
+function calculateTimeForMaxStamina(gameId) {
+    let currentStamina = parseInt(document.getElementById("currentStamina" + gameId).value);
+    let game = allGames.find(g => g.id === gameId);
+    let totalStaminaLeft = game.capStamina - currentStamina;
+    let howManyMinutesUntilCapped = totalStaminaLeft * game.staminaPerMinute;
+
+    let formattedDate = formatDate(howManyMinutesUntilCapped)
+    document.getElementById("maxStaminaAt" + gameId).textContent = formattedDate
+}
+
+function formatDate(howManyMinutesUntilCapped) {
+    let currentDate = new Date();
+    currentDate.setMinutes(currentDate.getMinutes() + howManyMinutesUntilCapped);
+
+    let day = currentDate.getDate();
+    let hour = currentDate.getHours();
+    let minutes = currentDate.getMinutes();
+
+    let formattedDate = `Day ${day} at ${hour}:${minutes < 10 ? '0' + minutes : minutes}`
+    return formattedDate;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -45,8 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
     formCreate.addEventListener("submit", (e) => {
         e.preventDefault();
         
-        let gachaName = document.getElementById("name").value;
-        addNewGachaToList(gachaName)
+        let descriptionNewGame = document.getElementById("descriptionNewGame").value;
+        let newGame = new Game(9999, descriptionNewGame, 'no img');
+        addNewGameToList(newGame)
     });
 
     loadGamesList();
