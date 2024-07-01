@@ -2,7 +2,14 @@ function loadGamesList() {
     document.getElementById("descriptionNewGame").value = '';
 
     allGames.forEach(game => {
-        addNewGameToList(game);
+        let storedGame = JSON.parse(localStorage.getItem(game.description));
+
+        if (storedGame) 
+        { 
+            addNewGameToList(storedGame);
+        } else { 
+            addNewGameToList(game);
+        }
     });
 }
 
@@ -14,25 +21,31 @@ function addNewGameToList(game) {
             <p class="button-item">${game.description}</p>
 
             <label class="button-item" for="currentStamina">Current Stamina:</label>
-            <input id="currentStamina${game.id}" name="currentStamina"/>
+            <input id="currentStamina${game.id}" name="currentStamina" value="${game.currentStamina | ''}" />
 
-            <button id="${game.id}" class="button-item" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
-            <p class="button-item">Max stamina at: </p> <span id="maxStaminaAt${game.id}" class="red-text">não definido<\span>
+            <button id="${game.id}" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
+            <p class="button-item">Max stamina at: </p> <span id="maxStaminaAt${game.id}" class="red-text">${game.maxStaminaAt}<\span>
         </li>
         `;
 }
 
 function calculateTimeForMaxStamina(gameId) {
-    let currentStamina = parseInt(document.getElementById("currentStamina" + gameId).value);
     let game = allGames.find(g => g.id === gameId);
-    let totalStaminaLeft = game.capStamina - currentStamina;
-    let howManyMinutesUntilCapped = totalStaminaLeft * game.staminaPerMinute;
 
-    let formattedDate = formatDate(howManyMinutesUntilCapped)
-    document.getElementById("maxStaminaAt" + gameId).textContent = formattedDate
+    let currentStamina = parseInt(document.getElementById(`currentStamina${gameId}`).value);
+    game.currentStamina = currentStamina;
+
+    let maxStaminaAt = calculateMaxStaminaAt(game)
+    game.maxStaminaAt = maxStaminaAt;
+    document.getElementById(`maxStaminaAt${gameId}`).textContent = game.maxStaminaAt;
+
+    localStorage.setItem(game.description, JSON.stringify(game))
 }
 
-function formatDate(howManyMinutesUntilCapped) {
+function calculateMaxStaminaAt(game) {
+    let totalStaminaLeft = game.capStamina - game.currentStamina;
+    let howManyMinutesUntilCapped = totalStaminaLeft * game.staminaPerMinute;
+
     let currentDate = new Date();
     currentDate.setMinutes(currentDate.getMinutes() + howManyMinutesUntilCapped);
 
