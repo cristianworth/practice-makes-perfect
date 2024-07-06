@@ -17,3 +17,4 @@ allGames.push(new Game(id = 2, description = 'Punishing Gray Raven', img = 'img/
 allGames.push(new Game(id = 3, description = 'Star Rail', img = 'img/star-rail-icon.png', capStamina = 240, staminaPerMinute = 6));
 allGames.push(new Game(id = 4, description = 'Wuthering Waves', img = 'img/wuthering-waves-icon.png', capStamina = 240, staminaPerMinute = 6));
 allGames.push(new Game(id = 5, description = 'Nikke', img = 'img/nikke-icon.png', capStamina = 1, staminaPerMinute = 1440));
+allGames.push(new Game(id = 6, description = 'Zenless Zone Zero', img = 'img/zzz-icon.png', capStamina = 240, staminaPerMinute = 6));
