@@ -17,14 +17,13 @@ function addNewGameToList(game) {
     let gameList = document.getElementById("games-list");
     gameList.innerHTML += `
         <li class="game-item">
-            <img src=${game.img} alt="${game.description} Icon" width="25" height="25">
-            <p class="button-item">${game.description}</p>
+            <img src=${game.img} alt="${game.description} Icon" width="35" height="35">
 
-            <label class="button-item" for="currentStamina">Current Stamina:</label>
-            <input id="currentStamina${game.id}" name="currentStamina" value="${game.currentStamina | ''}" />
+            <label class="spacing-left" for="currentStamina">Current Stamina:</label>
+            <input class="spacing-left" id="currentStamina${game.id}" name="currentStamina" value="${game.currentStamina | ''}" />
 
-            <button id="${game.id}" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
-            <p class="button-item">Max stamina at: </p> <span id="maxStaminaAt${game.id}" class="red-text">${game.maxStaminaAt}<\span>
+            <button class="spacing-left" id="${game.id}" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
+            <p class="spacing-left">Max stamina at: </p> <span id="maxStaminaAt${game.id}" class="spacing-left red-text">${game.maxStaminaAt}<\span>
         </li>
         `;
 }
@@ -49,15 +48,11 @@ function calculateMaxStaminaAt(game) {
     let currentDate = new Date();
     currentDate.setMinutes(currentDate.getMinutes() + howManyMinutesUntilCapped);
 
-    let day = currentDate.getDate();
-    let hour = currentDate.getHours();
-    let minutes = currentDate.getMinutes();
-
-    let formattedDate = `Day ${day} at ${hour}:${minutes < 10 ? '0' + minutes : minutes}`
+    let formattedDate = formatDateToDayHour(currentDate);
     return formattedDate;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+function initFormCreateMethod() {
     let formCreate = document.getElementById("form-create");
     formCreate.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -66,6 +61,25 @@ document.addEventListener("DOMContentLoaded", function () {
         let newGame = new Game(9999, descriptionNewGame, 'no img');
         addNewGameToList(newGame)
     });
+}
 
+function initFormEventTimeMethod() {
+    let formEventTime = document.getElementById("form-event-time");
+    formEventTime.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        let eventDay = parseInt(document.getElementById("eventDay").value);
+        let eventHour = parseInt(document.getElementById("eventHour").value);
+        
+        let currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + eventDay);
+        currentDate.setHours(currentDate.getHours() + eventHour);
+        document.getElementById("eventOver").textContent = formatDate(currentDate);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    initFormCreateMethod();
+    initFormEventTimeMethod();
     loadGamesList();
 });

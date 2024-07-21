@@ -2,7 +2,7 @@
     --main-blue: #2020b9;
 }
 
-.title-create {
+.main-title {
     color: var(--main-blue);
 }
 
@@ -17,7 +17,7 @@
     margin-left: 2.5em;
 }
 
-.button-item {
+.spacing-left {
     margin-left: 1em;
 }
 
