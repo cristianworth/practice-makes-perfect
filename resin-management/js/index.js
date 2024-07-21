@@ -33,23 +33,23 @@ function calculateTimeForMaxStamina(gameId) {
 
     let currentStamina = parseInt(document.getElementById(`currentStamina${gameId}`).value);
     game.currentStamina = currentStamina;
+    game.dateMaxStamina = forecastMaxStamina(game)
 
-    let maxStaminaAt = calculateMaxStaminaAt(game)
+    let maxStaminaAt = formatDateToDayHour(game.dateMaxStamina)
     game.maxStaminaAt = maxStaminaAt;
-    document.getElementById(`maxStaminaAt${gameId}`).textContent = game.maxStaminaAt;
+    document.getElementById(`maxStaminaAt${gameId}`).textContent = formatDateToDayHour(game.dateMaxStamina);
 
     localStorage.setItem(game.description, JSON.stringify(game))
 }
 
-function calculateMaxStaminaAt(game) {
+function forecastMaxStamina(game) {
     let totalStaminaLeft = game.capStamina - game.currentStamina;
     let howManyMinutesUntilCapped = totalStaminaLeft * game.staminaPerMinute;
 
-    let currentDate = new Date();
-    currentDate.setMinutes(currentDate.getMinutes() + howManyMinutesUntilCapped);
+    let forecastDate = new Date();
+    forecastDate.setMinutes(forecastDate.getMinutes() + howManyMinutesUntilCapped);
 
-    let formattedDate = formatDateToDayHour(currentDate);
-    return formattedDate;
+    return forecastDate;
 }
 
 function initFormCreateMethod() {
