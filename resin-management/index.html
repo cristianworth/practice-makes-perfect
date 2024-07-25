@@ -18,28 +18,20 @@
             <input id="descriptionNewGame" name="descriptionNewGame"/>
             <button type="submit">Add</button>
         </form>
-        <ul class="game-list" id="games-list">
-
-
-
-
-            <!-- <ul class="game-item">
-                <img src='img/genshin-icon.png' alt="Genshin Icon" width="25" height="25">
-                <p class="spacing-left">Genshin Impact</p>
-                <p class="spacing-left">200</p>
-            </ul>
-
-            <br/>
-            <ul class="game-item">
-                <img src='img/pgr-icon.png' alt="PGR Icon" width="25" height="25">
-                <p class="spacing-left">Punishing Gray Raven</p>
-                <p class="spacing-left">teste</p>
-            </ul> -->
-
-
-
-
-        </ul>
+        <table id="gameTable">
+            <thead>
+                <tr>
+                    <th>Icon</th>
+                    <th>Game</th>
+                    <th>Stamina</th>
+                    <th>Max Stamina At</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="gameTableBody">
+                <!-- Dados vão ser preenchidos automaticamente com os dados populados no game.js -->
+            </tbody>
+        </table>
     </section>
     <section>
         <h1 class="main-title">Event time calculator</h1>

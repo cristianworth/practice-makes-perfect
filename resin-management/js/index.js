@@ -14,18 +14,19 @@ function loadGamesList() {
 }
 
 function addNewGameToList(game) {
-    let gameList = document.getElementById("games-list");
-    gameList.innerHTML += `
-        <li class="game-item">
-            <img src=${game.img} alt="${game.description} Icon" width="35" height="35">
-
-            <label class="spacing-left" for="currentStamina">Current Stamina:</label>
-            <input class="spacing-left" id="currentStamina${game.id}" name="currentStamina" value="${game.currentStamina | ''}" />
-
-            <button class="spacing-left" id="${game.id}" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
-            <p class="spacing-left">Max stamina at: </p> <span id="maxStaminaAt${game.id}" class="spacing-left red-text">${game.maxStaminaAt}<\span>
-        </li>
-        `;
+    let gameTableBody = document.getElementById("gameTableBody");
+    gameTableBody.innerHTML += `
+        <tr>
+            <td><img src=${game.img} alt="${game.description} Icon" class="icon" width="35" height="35"></td>
+            <td>${game.description}</td>
+            <td>
+                <input class="input-centered spacing-left" id="currentStamina${game.id}" name="currentStamina" value="${game.currentStamina | ''}" />
+                <button class="spacing-left" id="${game.id}" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
+            </td>
+            <td><span id="maxStaminaAt${game.id}" class="spacing-left red-text">${game.maxStaminaAt}<\span></td>
+            <td>${game.dateMaxStamina}</td>
+        </tr>
+    `;
 }
 
 function calculateTimeForMaxStamina(gameId) {
@@ -37,7 +38,7 @@ function calculateTimeForMaxStamina(gameId) {
 
     let maxStaminaAt = formatDateToDayHour(game.dateMaxStamina)
     game.maxStaminaAt = maxStaminaAt;
-    document.getElementById(`maxStaminaAt${gameId}`).textContent = formatDateToDayHour(game.dateMaxStamina);
+    document.getElementById(`maxStaminaAt${gameId}`).textContent = maxStaminaAt;
 
     localStorage.setItem(game.description, JSON.stringify(game))
 }
@@ -78,8 +79,22 @@ function initFormEventTimeMethod() {
     });
 }
 
+function orderGameTableByDate() {
+    let table = document.getElementById("gameTable").getElementsByTagName("tbody")[0];
+    let rows = Array.from(table.rows);
+
+    rows.sort((a, b) => {
+        let dateA = new Date(a.cells[3].innerText);
+        let dateB = new Date(b.cells[3].innerText);
+        return dateA - dateB;
+    });
+
+    rows.forEach(row => table.appendChild(row));
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     initFormCreateMethod();
     initFormEventTimeMethod();
     loadGamesList();
+    orderGameTableByDate();
 });
