@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="js/database.js"></script> 
     <script src="js/utils.js"></script> 
     <script src="js/game.js"></script> 
     <!-- Game precisa ser referenciado primeiro, pq ele é usado pelo index. A ORDEM IMPORTA AQUI -->
@@ -47,6 +49,20 @@
             <br/>
             <p>The event will be over on day: <span id="eventOver" class="red-text">not defined</span></p>
         </form>
+        <table id="gameList">
+            <thead>
+                <tr>
+                    <th>Icon</th>
+                    <th>Game</th>
+                    <th>Stamina</th>
+                    <th>Max Stamina At</th>
+                    <th hidden>Date</th>
+                </tr>
+            </thead>
+            <tbody id="gameListBody">
+                <!-- Dados vão ser preenchidos automaticamente com os dados populados no game.js -->
+            </tbody>
+        </table>
     </section>
 </body>
 </html>

@@ -20,3 +20,4 @@ allGames.push(new Game(id = 3, description = 'Honkai Star Rail', abbreviation = 
 allGames.push(new Game(id = 4, description = 'Wuthering Waves', abbreviation = 'WuWa', img = 'img/wuthering-waves-icon.png', capStamina = 240, staminaPerMinute = 6));
 allGames.push(new Game(id = 5, description = 'Zenless Zone Zero', abbreviation = 'ZZZ', img = 'img/zzz-icon.png', capStamina = 240, staminaPerMinute = 6));
 allGames.push(new Game(id = 6, description = 'Nikke', abbreviation = 'NKK', img = 'img/nikke-icon.png', capStamina = 1, staminaPerMinute = 1440));
+
