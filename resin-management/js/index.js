@@ -24,7 +24,7 @@ function addNewGameToList(game) {
                 <button class="spacing-left" id="${game.id}" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
             </td>
             <td><span id="maxStaminaAt${game.id}" class="spacing-left red-text">${game.maxStaminaAt}<\span></td>
-            <td>${game.dateMaxStamina}</td>
+            <td hidden>${game.dateMaxStamina}</td>
         </tr>
     `;
 }
@@ -84,8 +84,17 @@ function orderGameTableByDate() {
     let rows = Array.from(table.rows);
 
     rows.sort((a, b) => {
-        let dateA = new Date(a.cells[3].innerText);
-        let dateB = new Date(b.cells[3].innerText);
+        let dateA = new Date(a.cells[4].innerText);
+        let dateB = new Date(b.cells[4].innerText);
+
+        console.log(`Comparing: ${dateA} and ${dateB}`);
+        
+        // Adiciona uma validação para verificar se as datas são válidas
+        if (isNaN(dateA) || isNaN(dateB)) {
+            console.error(`Invalid date found: ${dateA} or ${dateB}`);
+            return 0;
+        }
+
         return dateA - dateB;
     });
 
