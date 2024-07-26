@@ -4,6 +4,10 @@ db.version(1).stores({
     games: 'id, description, abbreviation, img, capStamina, staminaPerMinute, currentStamina, maxStaminaAt, dateMaxStamina'
 });
 
+db.version(2).stores({
+    games: 'id, description, abbreviation, img, capStamina, staminaPerMinute, currentStamina, maxStaminaAt, dateMaxStamina, pendingTasks'
+});
+
 db.open().then(populateInitialData).catch((error) => {
     console.error("Failed to open the database:", error);
 });
@@ -54,8 +58,11 @@ function displayGames(games) {
         let gameListBody = document.getElementById("gameListBody");
         gameListBody.innerHTML += `
             <tr>
-                <td><img src=${game.img} alt="${game.description} Icon" class="icon" width="35" height="35"></td>
+                <td><img src=${game.img} alt="${game.description} Icon" class="icon" width="50" height="50"></td>
                 <td>${game.description}</td>
+                <td>
+                    <textarea id="pendingTasks${game.id}" name="pendingTasks" spellcheck="false">${game.pendingTasks || ''}</textarea>
+                </td>
                 <td>
                     <input class="input-centered spacing-left" id="newStamina${game.id}" name="newStamina" value="${game.currentStamina | ''}" />
                     <button class="spacing-left" id="${game.id}" onclick="calculateTimeForMaxStaminaDb(${game.id})">Refresh</button>
@@ -70,6 +77,7 @@ function displayGames(games) {
 async function calculateTimeForMaxStaminaDb(gameId) {
     let game = await fetchGameById(gameId);
 
+    game.pendingTasks = document.getElementById(`pendingTasks${gameId}`).value;
     game.currentStamina = parseInt(document.getElementById(`newStamina${gameId}`).value);
     game.dateMaxStamina = forecastMaxStamina(game);
     game.maxStaminaAt = formatDateToDayHour(game.dateMaxStamina);

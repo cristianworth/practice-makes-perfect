@@ -87,8 +87,6 @@ function orderGameTableByDate() {
         let dateA = new Date(a.cells[4].innerText);
         let dateB = new Date(b.cells[4].innerText);
 
-        console.log(`Comparing: ${dateA} and ${dateB}`);
-        
         // Adiciona uma validação para verificar se as datas são válidas
         if (isNaN(dateA) || isNaN(dateB)) {
             console.error(`Invalid date found: ${dateA} or ${dateB}`);

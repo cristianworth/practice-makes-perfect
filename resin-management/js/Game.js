@@ -1,5 +1,5 @@
 class Game {
-    constructor(id, description, abbreviation, img, capStamina, staminaPerMinute, currentStamina = 0, maxStaminaAt = 'not defined', dateMaxStamina = new Date()) {
+    constructor(id, description, abbreviation, img, capStamina, staminaPerMinute, currentStamina = 0, maxStaminaAt = 'not defined', dateMaxStamina = new Date(), pendingTasks = '') {
         this.id = id;
         this.description = description;
         this.abbreviation = abbreviation;
@@ -9,6 +9,7 @@ class Game {
         this.currentStamina = currentStamina;
         this.maxStaminaAt = maxStaminaAt;
         this.dateMaxStamina = dateMaxStamina;
+        this.pendingTasks = pendingTasks;
     }
 }
 
