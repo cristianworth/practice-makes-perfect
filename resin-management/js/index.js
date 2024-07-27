@@ -1,46 +1,15 @@
-function loadGamesList() {
-    document.getElementById("descriptionNewGame").value = '';
 
-    allGames.forEach(game => {
-        let storedGame = JSON.parse(localStorage.getItem(game.description));
+async function calculateTimeForMaxStaminaDb(gameId) {
+    let game = await fetchGameById(gameId);
 
-        if (storedGame) 
-        { 
-            addNewGameToList(storedGame);
-        } else { 
-            addNewGameToList(game);
-        }
-    });
-}
+    game.pendingTasks = document.getElementById(`pendingTasks${gameId}`).value;
+    game.currentStamina = parseInt(document.getElementById(`newStamina${gameId}`).value);
+    game.dateMaxStamina = forecastMaxStamina(game);
+    game.maxStaminaAt = formatDateToDayHour(game.dateMaxStamina);
+    document.getElementById(`newMaxStaminaAt${gameId}`).textContent = game.maxStaminaAt;
 
-function addNewGameToList(game) {
-    let gameTableBody = document.getElementById("gameTableBody");
-    gameTableBody.innerHTML += `
-        <tr>
-            <td><img src=${game.img} alt="${game.description} Icon" class="icon" width="35" height="35"></td>
-            <td>${game.description}</td>
-            <td>
-                <input class="input-centered spacing-left" id="currentStamina${game.id}" name="currentStamina" value="${game.currentStamina | ''}" />
-                <button class="spacing-left" id="${game.id}" onclick="calculateTimeForMaxStamina(${game.id})">Refresh</button>
-            </td>
-            <td><span id="maxStaminaAt${game.id}" class="spacing-left red-text">${game.maxStaminaAt}<\span></td>
-            <td hidden>${game.dateMaxStamina}</td>
-        </tr>
-    `;
-}
-
-function calculateTimeForMaxStamina(gameId) {
-    let game = allGames.find(g => g.id === gameId);
-
-    let currentStamina = parseInt(document.getElementById(`currentStamina${gameId}`).value);
-    game.currentStamina = currentStamina;
-    game.dateMaxStamina = forecastMaxStamina(game)
-
-    let maxStaminaAt = formatDateToDayHour(game.dateMaxStamina)
-    game.maxStaminaAt = maxStaminaAt;
-    document.getElementById(`maxStaminaAt${gameId}`).textContent = maxStaminaAt;
-
-    localStorage.setItem(game.description, JSON.stringify(game))
+    updateGame(game);
+    displayAllGames();
 }
 
 function forecastMaxStamina(game) {
@@ -60,7 +29,6 @@ function initFormCreateMethod() {
         
         let descriptionNewGame = document.getElementById("descriptionNewGame").value;
         let newGame = new Game(9999, descriptionNewGame, 'no img');
-        addNewGameToList(newGame)
     });
 }
 
@@ -79,29 +47,32 @@ function initFormEventTimeMethod() {
     });
 }
 
-function orderGameTableByDate() {
-    let table = document.getElementById("gameTable").getElementsByTagName("tbody")[0];
-    let rows = Array.from(table.rows);
+async function displayAllGames() {
+    var games = await fetchAllGames();
+    gameListBody.innerHTML = ''; // clear data
 
-    rows.sort((a, b) => {
-        let dateA = new Date(a.cells[4].innerText);
-        let dateB = new Date(b.cells[4].innerText);
-
-        // Adiciona uma validação para verificar se as datas são válidas
-        if (isNaN(dateA) || isNaN(dateB)) {
-            console.error(`Invalid date found: ${dateA} or ${dateB}`);
-            return 0;
-        }
-
-        return dateA - dateB;
+    games.forEach(game => {
+        let gameListBody = document.getElementById("gameListBody");
+        gameListBody.innerHTML += `
+            <tr>
+                <td><img src=${game.img} alt="${game.description} Icon" class="icon"></td>
+                <td>${game.description}</td>
+                <td>
+                    <textarea id="pendingTasks${game.id}" name="pendingTasks" spellcheck="false">${game.pendingTasks || ''}</textarea>
+                </td>
+                <td>
+                    <input class="input-centered spacing-left" id="newStamina${game.id}" name="newStamina" value="${game.currentStamina | ''}" />
+                    <button class="spacing-left" id="${game.id}" onclick="calculateTimeForMaxStaminaDb(${game.id})">Update</button>
+                </td>
+                <td><span id="newMaxStaminaAt${game.id}" class="spacing-left red-text">${game.maxStaminaAt}<\span></td>
+                <td hidden>${game.dateMaxStamina}</td>
+            </tr>
+        `;
     });
-
-    rows.forEach(row => table.appendChild(row));
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     initFormCreateMethod();
     initFormEventTimeMethod();
-    loadGamesList();
-    orderGameTableByDate();
+    displayAllGames();
 });
