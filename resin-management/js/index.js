@@ -1,18 +1,19 @@
 
-async function calculateTimeForMaxStaminaDb(gameId) {
+async function updateGameStamina(gameId) {
     let game = await fetchGameById(gameId);
 
     game.pendingTasks = document.getElementById(`pendingTasks${gameId}`).value;
     game.currentStamina = parseInt(document.getElementById(`newStamina${gameId}`).value);
-    game.dateMaxStamina = forecastMaxStamina(game);
+    game.dateMaxStamina = calculateMaxStaminaDate(game);
     game.maxStaminaAt = formatDateToDayHour(game.dateMaxStamina);
+
     document.getElementById(`newMaxStaminaAt${gameId}`).textContent = game.maxStaminaAt;
 
-    updateGame(game);
+    await updateGame(game);
     displayAllGames();
 }
 
-function forecastMaxStamina(game) {
+function calculateMaxStaminaDate(game) {
     let totalStaminaLeft = game.capStamina - game.currentStamina;
     let howManyMinutesUntilCapped = totalStaminaLeft * game.staminaPerMinute;
 
@@ -62,7 +63,7 @@ async function displayAllGames() {
                 </td>
                 <td>
                     <input class="input-centered spacing-left" id="newStamina${game.id}" name="newStamina" value="${game.currentStamina | ''}" />
-                    <button class="spacing-left" id="${game.id}" onclick="calculateTimeForMaxStaminaDb(${game.id})">Update</button>
+                    <button class="spacing-left" id="${game.id}" onclick="updateGameStamina(${game.id})">Update</button>
                 </td>
                 <td><span id="newMaxStaminaAt${game.id}" class="spacing-left red-text">${game.maxStaminaAt}<\span></td>
                 <td hidden>${game.dateMaxStamina}</td>
