@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import OccurrenceForm from './components/OccurrenceForm';
 import OccurrenceList from './components/OccurrenceList';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [occurrences, setOccurrences] = useState([]);
@@ -20,11 +21,24 @@ function App() {
     setOccurrences([...occurrences, occurrence]);
   };
 
+  const updateOccurrences = () => {
+    const updatedOccurrences = [...occurrences];
+    setOccurrences(updatedOccurrences);
+  };
+
+  const deleteOccurrence = (index) => {
+    const updatedOccurrences = occurrences.filter((_, i) => i !== index);
+    setOccurrences(updatedOccurrences);
+  };
+
   return (
-    <div>
-      <h1>Occurrence Tracker</h1>
+    <div className="container mt-5">
+      <h1>Days Since Tracker</h1>
       <OccurrenceForm addOccurrence={addOccurrence} />
-      <OccurrenceList occurrences={occurrences} />
+      <button className="btn btn-primary mt-3" onClick={updateOccurrences}>
+        Update Days
+      </button>
+      <OccurrenceList occurrences={occurrences} deleteOccurrence={deleteOccurrence} />
     </div>
   );
 }
