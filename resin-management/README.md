@@ -26,9 +26,13 @@ O Resin Management é uma aplicação desenvolvida para ajudar jogadores de gach
 - [ ] Add an option to mark/unmark gacha dailies as done
 
 ```
-node -v // typescript runs under node
 npm install -g typescript // install it globally
+node -v // typescript runs under node
+
 tsc index.ts // gera arquivo js
-tsc index.ts --target "ESNEXT" // arquivo js com a versão mais recente do Ecma
+node index.js // runs the js file
+tsc index.ts --target "ESNEXT" // arquivo js com a versão mais recente do EcmaScript
+
 tsc --init // gera arquivo tsconfig.json
+tsc --watch // automatically generetes de js file
 ```
