@@ -24,3 +24,11 @@ O Resin Management é uma aplicação desenvolvida para ajudar jogadores de gach
 - [X] Use IndexedDB instead of localStorage
 - [X] Create a function to show pending tasks to-do in the game
 - [ ] Add an option to mark/unmark gacha dailies as done
+
+```
+node -v // typescript runs under node
+npm install -g typescript // install it globally
+tsc index.ts // gera arquivo js
+tsc index.ts --target "ESNEXT" // arquivo js com a versão mais recente do Ecma
+tsc --init // gera arquivo tsconfig.json
+```
