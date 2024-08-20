@@ -38,8 +38,8 @@ function initFormEventTimeMethod() {
     formEventTime.addEventListener("submit", (e) => {
         e.preventDefault();
         
-        let eventDay = parseInt(document.getElementById("eventDay").value);
-        let eventHour = parseInt(document.getElementById("eventHour").value);
+        let eventDay = parseInt(document.getElementById("eventDay").value) | 0;
+        let eventHour = parseInt(document.getElementById("eventHour").value) | 0;
         
         let currentDate = new Date();
         currentDate.setDate(currentDate.getDate() + eventDay);
