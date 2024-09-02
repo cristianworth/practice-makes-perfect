@@ -4,12 +4,25 @@ import OccurrenceList from './components/OccurrenceList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  const initialOccurrences = [
+    {
+      occurrenceDay: '25/01/2024',
+      description: 'Pós operatório transplante de cabelo',
+    },
+    {
+      occurrenceDay: '11/07/2024',
+      description: 'Pós aplicação de plasma rico em plaquetas',
+    },
+  ];
+
   const [occurrences, setOccurrences] = useState([]);
 
   useEffect(() => {
     const storedOccurrences = JSON.parse(localStorage.getItem('occurrences'));
-    if (storedOccurrences) {
+    if (storedOccurrences && storedOccurrences.length > 0) {
       setOccurrences(storedOccurrences);
+    } else {
+      setOccurrences(initialOccurrences);
     }
   }, []);
 
