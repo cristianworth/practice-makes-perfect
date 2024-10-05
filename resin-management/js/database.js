@@ -28,7 +28,6 @@ async function populateInitialData() {
 
 async function addGameIfNotExists(gameId) {
     try {
-        debugger;
         var gameFound = await fetchGameById(gameId);
 
         if (!gameFound)

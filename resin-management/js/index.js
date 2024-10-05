@@ -1,16 +1,22 @@
-
 async function updateGameStamina(gameId) {
     let game = await fetchGameById(gameId);
 
-    game.pendingTasks = document.getElementById(`pendingTasks${gameId}`).value;
-    game.currentStamina = parseInt(document.getElementById(`newStamina${gameId}`).value);
-    game.dateMaxStamina = calculateMaxStaminaDate(game);
-    game.maxStaminaAt = formatDateToDayHour(game.dateMaxStamina);
+    const staminaValue = parseInt(document.getElementById(`newStamina${gameId}`).value, 10);
+    const pendingTasksValue = document.getElementById(`pendingTasks${gameId}`).value;
 
-    document.getElementById(`newMaxStaminaAt${gameId}`).textContent = game.maxStaminaAt;
+    if (!isNaN(staminaValue)) {
+        game.currentStamina = staminaValue;
+        game.pendingTasks = pendingTasksValue;
+        game.dateMaxStamina = calculateMaxStaminaDate(game);
+        game.maxStaminaAt = formatDateToDayHour(game.dateMaxStamina);
 
-    await updateGame(game);
-    displayAllGames();
+        document.getElementById(`newMaxStaminaAt${gameId}`).textContent = game.maxStaminaAt;
+
+        await updateGame(game);
+        displayAllGames();
+    } else {
+        alert("Please enter a valid integer number for stamina.");
+    }
 }
 
 function calculateMaxStaminaDate(game) {
@@ -62,7 +68,7 @@ async function displayAllGames() {
                     <textarea id="pendingTasks${game.id}" name="pendingTasks" spellcheck="false">${game.pendingTasks || ''}</textarea>
                 </td>
                 <td>
-                    <input class="input-centered spacing-left" id="newStamina${game.id}" name="newStamina" value="${game.currentStamina | ''}" />
+                    <input class="input-centered spacing-left" id="newStamina${game.id}" name="newStamina" type="number" oninput="validateStaminaInput(this)" value="${game.currentStamina | ''}" />
                     <button class="spacing-left" id="${game.id}" onclick="updateGameStamina(${game.id})">Update</button>
                 </td>
                 <td><span id="newMaxStaminaAt${game.id}" class="spacing-left red-text">${game.maxStaminaAt}<\span></td>
@@ -70,6 +76,10 @@ async function displayAllGames() {
             </tr>
         `;
     });
+}
+
+function validateStaminaInput(input) {
+    input.value = input.value.replace(/[^0-9]/g, '');  // Removes non-numeric characters
 }
 
 document.addEventListener("DOMContentLoaded", function () {
