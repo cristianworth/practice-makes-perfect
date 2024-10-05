@@ -12,17 +12,40 @@ db.open().then(populateInitialData).catch((error) => {
     console.error("Failed to open the database:", error);
 });
 
-// addNewGame(7);
+// Deleting a game, just to be created again on the populateInitialData method
+// deleteGameById(5);
 
 async function populateInitialData() {
     try {
-        const count = await db.games.count();
-        if (count === 0) {
-            await db.games.bulkAdd(allGames);
-            console.log("Initial data populated.");
+        for (const game of allGames) {
+            await addGameIfNotExists(game.id);
         }
+        console.log("Initial data populated.");
     } catch (error) {
         console.error("Error populating initial data:", error);
+    }
+}
+
+async function addGameIfNotExists(gameId) {
+    try {
+        debugger;
+        var gameFound = await fetchGameById(gameId);
+
+        if (!gameFound)
+        {
+            var newGame = allGames.find(x => x.id === gameId);
+
+            if (newGame) {
+                await db.games.add(newGame);
+                console.log(`Game added successfully: ${newGame}`);
+            } else {
+                console.error(`Game not found in the allGames array: ${newGame}`);
+            }
+        } else {
+            console.log("Game already exists in the database:", gameFound);
+        }
+    } catch (error) {
+        console.error("Failed to add game:", error);
     }
 }
 
@@ -32,6 +55,21 @@ async function updateGame(game) {
         console.log("Jogo atualizado com sucesso ID = ", game.id);
     } catch (error) {
         console.error("Erro ao atualizar o jogo:", error);
+    }
+}
+
+async function deleteGameById(gameId) {
+    try {
+        const gameFound = await fetchGameById(gameId);
+
+        if (gameFound) {
+            await db.games.delete(gameId);
+            console.log(`Game with ID ${gameId} deleted successfully.`);
+        } else {
+            console.log(`Game with ID ${gameId} not found in the database.`);
+        }
+    } catch (error) {
+        console.error(`Failed to delete game with ID ${gameId}:`, error);
     }
 }
 
@@ -52,27 +90,5 @@ async function fetchGameById(id) {
         return game;
     } catch (error) {
         console.error("Erro ao buscar o jogo pelo ID:", error);
-    }
-}
-
-async function addNewGame(gameId) {
-    try {
-        var gameFound = await fetchGameById(gameId);
-
-        if (!gameFound)
-        {
-            var newGame = allGames.find(x => x.id === gameId);
-
-            if (newGame) {
-                await db.games.add(newGame);
-                console.log("Game added successfully:", newGame);
-            } else {
-                console.error("Game not found in the allGames array.");
-            }
-        } else {
-            console.log("Game already exists in the database:", gameFound);
-        }
-    } catch (error) {
-        console.error("Failed to add game:", error);
     }
 }

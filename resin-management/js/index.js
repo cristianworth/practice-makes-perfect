@@ -75,5 +75,6 @@ async function displayAllGames() {
 document.addEventListener("DOMContentLoaded", function () {
     initFormCreateMethod();
     initFormEventTimeMethod();
+    populateInitialData();
     displayAllGames();
 });
