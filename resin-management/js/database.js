@@ -14,6 +14,8 @@ db.open().then(populateInitialData).catch((error) => {
 
 // Deleting a game, just to be created again on the populateInitialData method
 // deleteGameById(2);
+// deleteGameById(6);
+// deleteGameById(7);
 
 async function populateInitialData() {
     try {
