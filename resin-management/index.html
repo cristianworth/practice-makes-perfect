@@ -45,24 +45,28 @@
         <table id="gameSchedule">
             <thead>
                 <tr>
-                    <th>Done ?</th>
-                    <th>Priority</th>
+                    <th hidden>ID</th>
+                    <th>Done?</th>
+                    <th>Game</th>
                     <th>Task</th>
                     <th>Act</th>
-                    <th>Game</th>
                     <th>Ending Date</th>
                 </tr>
             </thead>
             <tbody id="gameScheduleBody">
                 <tr>
-                    <td>
-                        No
-                        <!-- Hidden field, just used to change color/style when not done -->
+                    <td hidden>
+                        1
+                        <!-- Hidden field, identifier -->
                     </td>
                     <td>
-                        High
-                        <!-- redicon = high, yellowicon = medium, greenicon = green -->
-                    </td> 
+                        <input type="checkbox" id="task1" value="checkboxTask1">
+                        <!-- Checkbox rather the task is done os not -->
+                    </td>
+                    <td>
+                        ZZZ
+                        <!-- Select game: zzz, genshin, hsr... -->
+                    </td>
                     <td>
                         Shiyu Defense
                         <!-- Task description -->
@@ -70,10 +74,6 @@
                     <td>
                         Monthly
                         <!-- Will be a select field for Daily, Weekly, Monthly, BiWeekly and Event -->
-                    </td>
-                    <td>
-                        ZZZ
-                        <!-- Select game: zzz, genshin, hsr... -->
                     </td>
                     <td>
                         31/07/2024

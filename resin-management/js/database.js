@@ -12,15 +12,10 @@ db.open().then(populateInitialData).catch((error) => {
     console.error("Failed to open the database:", error);
 });
 
-// Deleting a game, just to be created again on the populateInitialData method
-// deleteGameById(2);
-// deleteGameById(6);
-// deleteGameById(7);
-
 async function populateInitialData() {
     try {
         for (const game of allGames) {
-            await addGameIfNotExists(game.id);
+            await addGameIfNotExists(game);
         }
         console.log("Initial data populated.");
     } catch (error) {
@@ -28,20 +23,15 @@ async function populateInitialData() {
     }
 }
 
-async function addGameIfNotExists(gameId) {
+async function addGameIfNotExists(newGame) {
+    // Method used to populate the initial set o data predefined on the Game.js file
     try {
-        var gameFound = await fetchGameById(gameId);
+        const gameFound = await fetchGameById(newGame.id);
 
         if (!gameFound)
         {
-            var newGame = allGames.find(x => x.id === gameId);
-
-            if (newGame) {
-                await db.games.add(newGame);
-                console.log(`Game added successfully: ${newGame}`);
-            } else {
-                console.error(`Game not found in the allGames array: ${newGame}`);
-            }
+            await db.games.add(newGame);
+            console.log(`Game added successfully: ${newGame}`);
         } else {
             console.log("Game already exists in the database:", gameFound);
         }
@@ -51,6 +41,12 @@ async function addGameIfNotExists(gameId) {
 }
 
 async function updateGame(game) {
+    // Method used to mainly update the amout of stamina on the main screen
+    if (!game.id) {
+        console.log("Invalid game object id: ", game);
+        return;
+    }
+
     try {
         await db.games.update(game.id, game);
         console.log("Jogo atualizado com sucesso ID = ", game.id);
@@ -60,6 +56,12 @@ async function updateGame(game) {
 }
 
 async function deleteGameById(gameId) {
+    // Not really used at the moment but can be used to update an existing Game, 
+    //      delet it and then when the pages reload the populateInitialData will create it again
+    // Examples:
+    // deleteGameById(2);
+    // deleteGameById(6);
+    // deleteGameById(7);
     try {
         const gameFound = await fetchGameById(gameId);
 
@@ -75,21 +77,25 @@ async function deleteGameById(gameId) {
 }
 
 async function fetchAllGames() {
+    // Method used to load allGames into the main page. 
     try {
         const games = await db.games.orderBy("dateMaxStamina").toArray();
         console.log("Todos os jogos:", games);
         return games;
     } catch (error) {
         console.error("Erro ao buscar todos os jogos:", error);
+        return [];
     }
 }
 
 async function fetchGameById(id) {
+    // Method to verify if the game exists
     try {
         const game = await db.games.get(id);
         console.log("Jogo encontrado:", game);
         return game;
     } catch (error) {
         console.error("Erro ao buscar o jogo pelo ID:", error);
+        return null;
     }
 }
