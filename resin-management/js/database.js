@@ -8,6 +8,11 @@ db.version(2).stores({
     games: 'id, description, abbreviation, img, capStamina, staminaPerMinute, currentStamina, maxStaminaAt, dateMaxStamina, pendingTasks'
 });
 
+db.version(3).stores({
+    // games: 'id, description, abbreviation, img, capStamina, staminaPerMinute, currentStamina, maxStaminaAt, dateMaxStamina, pendingTasks',
+    tasks: 'id, description, expirationDate, isDone, refreshType, gameId',
+});
+
 db.open().then(populateInitialData).catch((error) => {
     console.error("Failed to open the database:", error);
 });
@@ -97,5 +102,59 @@ async function fetchGameById(id) {
     } catch (error) {
         console.error("Erro ao buscar o jogo pelo ID:", error);
         return null;
+    }
+}
+
+async function addTask(task) {
+    try {
+        await db.tasks.add(task);
+        console.log(`Task added successfully: ${task}`);
+    } catch (error) {
+        console.error("Failed to add game:", error);
+    }
+}
+
+async function updateTask(task) {
+    if (!task.id) {
+        console.log("Invalid task object id: ", task);
+        return;
+    }
+
+    try {
+        await db.tasks.update(task.id, task);
+        console.log("Tarefa atualizado com sucesso ID = ", task.id);
+    } catch (error) {
+        console.error("Erro ao atualizar a tarefa:", error);
+    }
+}
+
+async function fetchTasksByGame(gameId) {
+    try {
+        var task = await db.tasks.where("gameId").equals(gameId).toArray();
+        console.log(`Task finded successfully: ${task}`);
+        return task;
+    } catch (error) {
+        console.error("Failed to add game:", error);
+    }
+}
+
+async function fetchAllTasks() {
+    try {
+        const tasks = await db.tasks.orderBy("expirationDate").toArray();
+        console.log("Todas as tarefas:", tasks);
+        return games;
+    } catch (error) {
+        console.error("Erro ao buscar todas as tarefas:", error);
+        return [];
+    }
+}
+
+async function completeTask(taskId) {
+    try {
+        var task = await db.tasks.update(taskId, { status: "completed" });
+        console.log(`Task updated successfully: ${task}`);
+        return task;
+    } catch (error) {
+        console.error("Failed to update game:", error);
     }
 }

@@ -59,6 +59,7 @@ async function displayAllGames() {
     gameListBody.innerHTML = ''; // clear data
 
     games.forEach(game => {
+        // Isso aqui não deveria ser instanciado antes de usar o innetHTML WTF ?? 
         let gameListBody = document.getElementById("gameListBody");
         gameListBody.innerHTML += `
             <tr>
@@ -78,6 +79,30 @@ async function displayAllGames() {
     });
 }
 
+async function displayAllTasks() {
+    var tasks = await fetchAllTasks();
+    let gameScheduleBody = document.getElementById("gameScheduleBody");
+    gameScheduleBody.innerHTML = ''; // clear data
+
+    tasks.forEach(task => {
+        let row = `
+                <tr>
+                    <td hidden>${task.id}</td>
+                    <td><input type="checkbox" id="task1" value="${task.isDone == "S" ? true : false}">Is done?</td>
+                    <td>${task.gameId}</td>
+                    <td>
+                        <textarea id="description${game.id}" name="description" spellcheck="false">${task.description || ''}</textarea>
+                    </td>
+                    <td>${task.refreshType}</td>
+                    <td>${task.expirationDate}</td>
+                    <td><button class="spacing-left" id="${task.id}" onclick="updateTaskData(${task.id})">Update</button></td>
+                </tr>
+        `;
+
+        gameScheduleBody.innerHTML += row;
+    });
+}
+
 function validateStaminaInput(input) {
     input.value = input.value.replace(/[^0-9]/g, '');  // Removes non-numeric characters
 }
@@ -87,4 +112,5 @@ document.addEventListener("DOMContentLoaded", function () {
     initFormEventTimeMethod();
     populateInitialData();
     displayAllGames();
+    displayAllTasks();
 });
