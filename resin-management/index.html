@@ -20,10 +20,20 @@
             <a href="https://github.com/cristianworth/practice-makes-perfect/tree/main/resin-management" target="_blank">Resin Management</a>
         </h1>
         
-        <form id="form-create">
-            <label for="descriptionNewGame">Name of the game:</label>
-            <input id="descriptionNewGame" name="descriptionNewGame"/>
-            <button type="submit">Add</button>
+        <form id="game-form">
+            <label for="description">Name of the game:</label>
+            <input id="description" type="text" required/>
+            
+            <label for="abbreviation">Abbreviation:</label>
+            <input id="abbreviation" type="text" required/>
+            
+            <label for="capStamina">Cap Stamina:</label>
+            <input id="capStamina" type="text" required/>
+            
+            <label for="staminaPerMinute">Stamina p/ Minute:</label>
+            <input id="staminaPerMinute" type="text" required/>
+            
+            <button type="submit">Add Game</button>
         </form>
         <table id="gameList">
             <thead>

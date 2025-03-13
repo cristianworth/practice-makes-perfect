@@ -29,13 +29,31 @@ function calculateMaxStaminaDate(game) {
     return forecastDate;
 }
 
-function initFormCreateMethod() {
-    let formCreate = document.getElementById("form-create");
-    formCreate.addEventListener("submit", (e) => {
+function initAddGameForm() {
+    let formCreate = document.getElementById("game-form");
+    formCreate.addEventListener("submit", async function (e) {
         e.preventDefault();
         
-        let descriptionNewGame = document.getElementById("descriptionNewGame").value;
-        let newGame = new Game(9999, descriptionNewGame, 'no img');
+        let description = document.getElementById("description").value;
+        let abbreviation = document.getElementById("abbreviation").value;
+        let capStamina = document.getElementById("capStamina").value;
+        let staminaPerMinute = document.getElementById("staminaPerMinute").value;
+
+        let newGame = new Game(
+                            id = null, 
+                            description = description, 
+                            abbreviation = abbreviation, 
+                            img = 'img/default-icon.png',
+                            capStamina = capStamina,
+                            staminaPerMinute = staminaPerMinute,
+                            currentStamina = 0,
+                            maxStaminaAt = '',
+                            dateMaxStamina = new Date(),
+                            pendingTasks = ''
+                        );
+
+        await addGame(newGame);
+        displayAllGames();
     });
 }
 
@@ -106,7 +124,7 @@ function validateStaminaInput(input) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    initFormCreateMethod();
+    initAddGameForm();
     initFormEventTimeMethod();
     populateInitialData();
     displayAllGames();

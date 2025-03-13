@@ -1,8 +1,8 @@
-const db = new Dexie("gameDatabase");
+const db = new Dexie("GachaManagement");
 
 db.version(1).stores({
-    games: 'id, description, abbreviation, img, capStamina, staminaPerMinute, currentStamina, maxStaminaAt, dateMaxStamina, pendingTasks',
-    tasks: 'id, description, expirationDate, isDone, refreshType, gameId, gameDescription',
+    games: '++id, description, abbreviation, img, capStamina, staminaPerMinute, currentStamina, maxStaminaAt, dateMaxStamina, pendingTasks',
+    tasks: '++id, description, expirationDate, isDone, refreshType, gameId, gameDescription',
 });
 
 db.open().then(populateInitialData).catch((error) => {
@@ -29,11 +29,29 @@ async function addGameIfNotExists(newGame) {
         const gameFound = await fetchGameById(newGame.id);
 
         if (!gameFound) {
-            await db.games.add(newGame);
-            console.error("New Task added:", newTask);
+            await addGame(newGame);
         }
     } catch (error) {
         console.error("Failed to add game:", error);
+    }
+}
+
+async function addGame(game) {
+    try {
+        game.id = await getNextGameId();
+        await db.games.add(game);
+        console.log("New Game added:", game);
+    } catch (error) {
+        console.error("Failed to add game:", error);
+    }
+}
+
+async function getNextGameId() {
+    try {
+        var maxId = await db.games.orderBy('id').last();
+        return ++maxId.id;
+    } catch (error) {
+        console.error("Failed to get max game id:", error);
     }
 }
 
@@ -93,11 +111,33 @@ async function fetchGameById(id) {
     }
 }
 
+async function fetchGameById(id) {
+    // Method to verify if the game exists
+    try {
+        const game = await db.games.get(id);
+        return game;
+    } catch (error) {
+        console.error("Erro ao buscar o jogo pelo ID:", error);
+        return null;
+    }
+}
+
 async function addTask(task) {
     try {
+        task.id = await getNextTaskId();
         await db.tasks.add(task);
+        console.log("New Task added:", task);
     } catch (error) {
-        console.error("Failed to add game:", error);
+        console.error("Failed to add task:", error);
+    }
+}
+
+async function getNextTaskId() {
+    try {
+        var maxId = await db.tasks.orderBy('id').last();
+        return ++maxId.id;
+    } catch (error) {
+        console.error("Failed to get max task id:", error);
     }
 }
 
@@ -160,8 +200,7 @@ async function addTaskIfNotExists(newTask) {
         const taskFound = await fetchTaskById(newTask.id);
 
         if (!taskFound) {
-            await db.tasks.add(newTask);
-            console.error("New Task added:", newTask);
+            await addTask(newTask);
         }
     } catch (error) {
         console.error("Failed to add Task:", error);
