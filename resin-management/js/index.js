@@ -88,14 +88,12 @@ async function displayAllTasks() {
         let row = `
                 <tr>
                     <td hidden>${task.id}</td>
-                    <td><input type="checkbox" id="task1" value="${task.isDone == "S" ? true : false}">Is done?</td>
-                    <td>${task.gameId}</td>
-                    <td>
-                        <textarea id="description${game.id}" name="description" spellcheck="false">${task.description || ''}</textarea>
-                    </td>
+                    <td><input type="checkbox" id="task1" value="${task.isDone == "S" ? true : false}"></td>
+                    <td>${task.gameDescription}</td>
+                    <td>${task.description}</td>
                     <td>${task.refreshType}</td>
                     <td>${task.expirationDate}</td>
-                    <td><button class="spacing-left" id="${task.id}" onclick="updateTaskData(${task.id})">Update</button></td>
+                    <td><button class="spacing-left" id="${task.id}" onclick="updateTaskData(${task.id})">Edit</button></td>
                 </tr>
         `;
 
